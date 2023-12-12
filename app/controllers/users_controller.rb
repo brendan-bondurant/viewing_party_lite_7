@@ -16,6 +16,7 @@ class UsersController < ApplicationController
   def login_user
     user = User.find_by(email: params[:email])
     if user.authenticate(params[:password])
+      session[:user_id] = user.id
       flash[:success] = "Welcome, #{user.name}!"
       redirect_to user_path(user.id)
     else
@@ -28,6 +29,7 @@ class UsersController < ApplicationController
     user = user_params
     user[:email] = user[:email].downcase
     new_user = User.new(user)
+    session[:user_id] = user.id
     if new_user.save
       flash[:success] = "Welcome, #{new_user.name}!"
       redirect_to user_path(new_user.id)
