@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   def new
+    @user = User.new
   end
 
   def discover
@@ -8,6 +9,19 @@ class UsersController < ApplicationController
 
   def show
     @facade = UserFacade.new(params[:id])
+  end
+
+  def login_form; end
+
+  def login_user
+    user = User.find_by(email: params[:email])
+    if user.authenticate(params[:password])
+      flash[:success] = "Welcome, #{user.name}!"
+      redirect_to user_path(user.id)
+    else
+      flash[:error] = "Invalid Credentials"
+      redirect_to '/login'
+    end
   end
 
   def create
@@ -19,13 +33,17 @@ class UsersController < ApplicationController
       redirect_to user_path(new_user.id)
     else
       redirect_to register_path
-      flash[:error] = 'Please fill out BOTH name and email to create an account'
+      flash[:error] = 'Please fill out name, email, and password to create an account'
     end
   end
 
   private
 
   def user_params
+    if params[:user] != nil
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    else
     params.permit(:name, :email)
+    end
   end
 end

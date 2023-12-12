@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe 'Viewing Party Page', type: :feature do
   describe "viewing party details", :vcr do
     before(:each) do
-      @user = User.create!(name: 'Morgan', email: 'morgan@email.com')
-      @user1 = User.create!(name: 'Sam', email: 'sam@email.com')
-      @user2 = User.create!(name: 'Susan', email: 'susan@email.com')
+      @user = User.create!(name: 'Morgan', email: 'morgan@email.com', password: "12345", password_confirmation: "12345")
+      @user1 = User.create!(name: 'Sam', email: 'sam@email.com', password: "12345", password_confirmation: "12345")
+      @user2 = User.create!(name: 'Susan', email: 'susan@email.com', password: "12345", password_confirmation: "12345")
       visit new_user_movie_viewing_party_path(@user, 129)
     end
 

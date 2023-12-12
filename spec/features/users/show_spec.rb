@@ -3,9 +3,9 @@ require 'rails_helper'
 
 RSpec.describe '#show', type: :feature do
   before :each do
-    @user1 = User.create!(name: 'Brendan', email: 'brendan@turing.edu')
-    @user2 = User.create!(name: 'Paul', email: 'paul@turing.edu')
-    @user3 = User.create!(name: 'Sooyung', email: 'sooyung@turing.edu')
+    @user1 = User.create!(name: 'Brendan', email: 'brendan@turing.edu', password: "12345", password_confirmation: "12345")
+    @user2 = User.create!(name: 'Paul', email: 'paul@turing.edu', password: "12345", password_confirmation: "12345")
+    @user3 = User.create!(name: 'Sooyung', email: 'sooyung@turing.edu', password: "12345", password_confirmation: "12345")
   end
   it 'shows the name of the user next to dashboard' do
     visit user_path(@user1.id)
@@ -44,6 +44,7 @@ RSpec.describe '#show', type: :feature do
           expect(page).to have_content('Dune')
           expect(page).to have_content('Dec 01, 2024')
           expect(page).to have_content('07:23 AM')
+          
           expect(page).to have_content("Host: #{@user_1.name}")
           expect(page).to have_content("Guest List: #{@user_2.name}")
         end

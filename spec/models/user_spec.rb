@@ -4,20 +4,22 @@ RSpec.describe User, type: :model do
   describe 'relationships' do
     it { should have_many(:party_users) }
     it { should have_many(:parties) }
+    it { should have_secure_password }
   end
   describe 'validations' do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email).case_insensitive }
+    it { should validate_presence_of(:password_digest)}
   end
 
   describe 'class methods' do
     describe '#all_excluding_id' do
       it 'returns all users excluding the ID provided' do
-        @user_1 = User.create!(name: 'Kiwi', email: 'kiwibird@gmail.com')
-        @user_2 = User.create!(name: 'Coco', email: 'cocobird@gmail.com')
-        @user_3 = User.create!(name: 'Chicken', email: 'chickenbird@gmail.com')
-        @user_4 = User.create!(name: 'Hiccup', email: 'hiccupbird@gmail.com')
+        @user_1 = User.create!(name: 'Kiwi', email: 'kiwibird@gmail.com', password: "12345", password_confirmation: "12345")
+        @user_2 = User.create!(name: 'Coco', email: 'cocobird@gmail.com', password: "12345", password_confirmation: "12345")
+        @user_3 = User.create!(name: 'Chicken', email: 'chickenbird@gmail.com', password: "12345", password_confirmation: "12345")
+        @user_4 = User.create!(name: 'Hiccup', email: 'hiccupbird@gmail.com', password: "12345", password_confirmation: "12345")
 
         expect(User.all_excluding_id(@user_1.id)).not_to eq([@user_1])
         expect(User.all_excluding_id(@user_3.id)).not_to eq([@user_3])
@@ -27,8 +29,8 @@ RSpec.describe User, type: :model do
 
   describe 'instance methods' do
     before(:each) do
-      @user_1 = User.create!(name: 'Kiwi', email: 'kiwibird@gmail.com')
-      @user_2 = User.create!(name: 'Chicken', email: 'chickenbird@gmail.com')
+      @user_1 = User.create!(name: 'Kiwi', email: 'kiwibird@gmail.com', password: "12345", password_confirmation: "12345")
+      @user_2 = User.create!(name: 'Chicken', email: 'chickenbird@gmail.com', password: "12345", password_confirmation: "12345")
       @party_1 = Party.create!(movie_id: 926_393, duration_of_party: 109, party_date: '2024-10-10', start_time: '07:23')
       @party_2 = Party.create!(movie_id: 926_393, duration_of_party: 109, party_date: '2024-10-11', start_time: '09:23')
       @party_3 = Party.create!(movie_id: 926_393, duration_of_party: 109, party_date: '2024-10-12', start_time: '13:09')

@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe 'discover movies' do
   before(:each) do
-    @user1 = User.create!(name: 'Brendan', email: 'brendan@turing.edu')
-    @user2 = User.create!(name: 'Paul', email: 'paul@turing.edu')
-    @user3 = User.create!(name: 'Sooyung', email: 'sooyung@turing.edu')
+    @user1 = User.create!(name: 'Brendan', email: 'brendan@turing.edu', password: "12345", password_confirmation: "12345")
+    @user2 = User.create!(name: 'Paul', email: 'paul@turing.edu', password: "12345", password_confirmation: "12345")
+    @user3 = User.create!(name: 'Sooyung', email: 'sooyung@turing.edu', password: "12345", password_confirmation: "12345")
   end
 
   it 'has a home link, discover movies title, search field, find top rated movies and find movies buttons' do
