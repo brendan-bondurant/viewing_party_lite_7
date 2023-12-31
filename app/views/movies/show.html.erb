@@ -1,14 +1,9 @@
 
 <h2><%= @facade.full_details.title %></h2>
 
-<% if params[:user_id].present? %>
   <%= button_to 'Discover Movies', discover_user_path(params[:user_id]), method: :get %>
-<% else %>
-  <%= button_to 'Discover Movies', movies_path, method: :get %>
-  <% end %>
 
-
-<%= button_to "Create Viewing Party for #{@facade.full_details.title}", "/movies/#{@facade.single_movie_details.id}/viewing_party/new", method: :get %>
+<%= button_to "Create Viewing Party for #{@facade.full_details.title}", "/users/#{@user.id}/movies/#{@facade.single_movie_details.id}/viewing_party/new", method: :get %>
 
 
 <section id="details">

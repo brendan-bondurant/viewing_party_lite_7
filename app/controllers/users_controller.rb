@@ -11,6 +11,7 @@ class UsersController < ApplicationController
 
   def show
     @facade = UserFacade.new(params[:id])
+    @user = User.find(params[:id])
   end
 
   def login_form; end

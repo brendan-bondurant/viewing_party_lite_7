@@ -1,13 +1,15 @@
 class ViewingPartyController < ApplicationController
+  before_action :require_login, only: :new
+  
   def new
-    if params[:user_id] != nil
+    # if params[:user_id] != nil
       @facade = MovieDetailsFacade.new(params[:movie_id])
       @user = User.find(params[:user_id])
       @users = User.all
-    else
-      flash[:error] = "You must be logged in or registered to create a viewing party"
-      redirect_to movies_path
-    end
+    # else
+    #   flash[:error] = "You must be logged in or registered to create a viewing party"
+    #   redirect_to movies_path
+    # end
   end
 
   def create
@@ -37,6 +39,13 @@ class ViewingPartyController < ApplicationController
   def attendees_of_party(party)
     params[:invites].map do |invite|
       PartyUser.create!(user_id: invite, party_id: party.id)
+    end
+  end
+
+  def require_login
+    unless current_user
+      flash[:error] = "You must be logged in or registered to create a viewing party"
+      redirect_to "/users/#{params[:user_id]}/movies/#{params[:movie_id]}"
     end
   end
 end
