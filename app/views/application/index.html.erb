@@ -1,8 +1,18 @@
-<%= button_to "Create a New User", register_path, method: :get %>
 
-<h2>Existing Users</h2>
-<% @users.each do |user| %>
-  <p><%= link_to "#{user.email}", "/users/#{user.id}" %></p>
+<% if current_user.nil? %>
+<%= button_to "Create a New User", register_path, method: :get %>
 <% end %>
 
-<%= link_to "Log In", login_path %>
+
+
+
+<% if current_user  %>
+  <h2>Existing Users</h2>
+  <% @users.each do |user| %>
+   <p> <%# <%= link_to "#{user.email}", "/users/#{user.id}" %></p>
+    <%= user.email %> </p>
+  <% end %>
+  <%= link_to 'Log Out', logout_path, method: :delete, data: {turbo_method: :delete} %>
+<% else %>
+  <%= link_to "Log In", login_path %>
+<% end %>

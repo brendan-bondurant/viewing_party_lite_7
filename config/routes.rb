@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  delete '/logout', to: 'sessions#destroy', as: :logout
   root "application#index"
   get '/register', to: 'users#new'
   post '/users/:id', to: 'viewing_party#create'
@@ -14,6 +15,9 @@ Rails.application.routes.draw do
       resources :viewing_party, only: [:new]
     end
     get 'discover', on: :member
+  end
+  resources :movies, only: [:index, :show] do
+    resources :viewing_parties, only: [:new]
   end
 
 end

@@ -25,9 +25,11 @@ RSpec.describe 'application (/)' do
         expect(current_path).to eq(register_path)
       end
 
+      #needs to be altered for authentication
       it 'has a list of existing users and links to their dashboard' do
         visit '/'
-
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
+        save_and_open_page
         expect(page).to have_content('Existing Users')
         expect(page).to have_link(@user1.email)
         expect(page).to have_link(@user2.email)
@@ -46,6 +48,36 @@ RSpec.describe 'application (/)' do
         click_link('Home')
         expect(current_path).to eq('/')
       end
+    end
+
+    describe 'staying logged in' do
+      it 'has a link to log out' do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
+        visit root_path
+        expect(page).to have_link('Log Out')
+        click_link 'Log Out'
+        expect(current_path).to eq(root_path)
+      end
+      it 'does not have a link to log in' do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
+        visit root_path
+        expect(page).not_to have_link('Log In')
+        expect(page).not_to have_link('Create a New User')
+      end
+    end
+
+#     As a visitor
+#     When I visit the landing page
+#     I do not see the section of the page that lists existing users
+    describe 'authorization' do 
+      it 'does not have a section that lists existing users if visitor' do
+        visit root_path
+        expect(page).not_to have_content('Existing Users')
+      end
+#       As a registered user
+#       When I visit the landing page
+#       The list of existing users is no longer a link  to their show pages
+#       But just a list of email addresses
     end
   end
 end

@@ -13,6 +13,9 @@ class MoviesController < ApplicationController
 
   def show
     @facade = MovieDetailsFacade.new(params[:id])
-    @user = User.find(params[:user_id])
+    if @current_user != nil
+      @user = User.find(params[:user_id])
+    end
+    
   end
 end
